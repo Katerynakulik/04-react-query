@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 import css from "./App.module.css";
 import SearchBar from "../SearchBar/SearchBar";
 import type { Movie } from "../../types/movie";
-import type { MoviesHttpResponse } from "../../types/movie";
+import type { MoviesHttpResponse } from "../../types/responce";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { fetchMovies } from "../../services/movieService";
