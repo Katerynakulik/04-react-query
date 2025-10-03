@@ -1,12 +1,12 @@
 import axios from "axios";
-import type { Movie } from "../types/movie";
+
 import toast from "react-hot-toast";
+import type { MoviesHttpResponse } from "../types/responce";
 
-interface MoviesHttpResponse {
-  results: Movie[];
-}
-
-export const fetchMovies = async (query: string): Promise<Movie[]> => {
+export const fetchMovies = async (
+  query: string,
+  page: number
+): Promise<MoviesHttpResponse> => {
   try {
     const response = await axios.get<MoviesHttpResponse>(
       `https://api.themoviedb.org/3/search/movie`,
@@ -15,7 +15,7 @@ export const fetchMovies = async (query: string): Promise<Movie[]> => {
           query: query,
           include_adult: false,
           language: "en-US",
-          page: 1,
+          page,
         },
         headers: {
           accept: "application/json",
@@ -26,10 +26,16 @@ export const fetchMovies = async (query: string): Promise<Movie[]> => {
 
     console.log("Fetched movies:", response.data.results);
 
-    return response.data.results;
+    return {
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    };
   } catch (error) {
     console.error("Помилка при запиті:", error);
     toast.error("Failed to fetch movies. Please try again.");
-    return [];
+    return {
+      results: [],
+      total_pages: 0,
+    };
   }
 };
