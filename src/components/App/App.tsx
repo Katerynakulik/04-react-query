@@ -19,7 +19,7 @@ function App() {
     queryKey: ["movies", query, page],
     queryFn: () => fetchMovies(query, page),
     enabled: query.trim().length > 0,
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
   });
   const handleSearch = (topic: string) => {
     setQuery(topic);
