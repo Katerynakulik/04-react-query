@@ -1,8 +1,10 @@
 import axios from "axios";
 
-import toast from "react-hot-toast";
-import type { MoviesHttpResponse } from "../types/responce";
-
+import type { Movie } from "../types/movie";
+export interface MoviesHttpResponse {
+  results: Movie[];
+  total_pages: number;
+}
 export const fetchMovies = async (
   query: string,
   page: number
@@ -23,19 +25,9 @@ export const fetchMovies = async (
         },
       }
     );
-
-    console.log("Fetched movies:", response.data.results);
-
-    return {
-      results: response.data.results,
-      total_pages: response.data.total_pages,
-    };
+    return response.data;
   } catch (error) {
-    console.error("Помилка при запиті:", error);
-    toast.error("Failed to fetch movies. Please try again.");
-    return {
-      results: [],
-      total_pages: 0,
-    };
+    console.error("Error fetching movies:", error);
+    throw new Error("Failed to fetch movies");
   }
 };
