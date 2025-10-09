@@ -7,6 +7,18 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSearch }: SearchBarProps) {
+  // функція для обробки пошуку (action)
+  const handleAction = async (formData: FormData) => {
+    const query = formData.get("query")?.toString().trim();
+
+    if (!query) {
+      toast.error("Please enter your search query.");
+      return;
+    }
+
+    onSearch(query);
+  };
+
   return (
     <header className={css.header}>
       <div className={css.container}>
@@ -22,14 +34,11 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         <Formik
           initialValues={{ query: "" }}
           onSubmit={(values, { resetForm }) => {
-            const topic = values.query.trim();
+            // створюємо FormData вручну і викликаємо action
+            const formData = new FormData();
+            formData.append("query", values.query);
+            handleAction(formData);
 
-            if (!topic) {
-              toast.error("Please enter your search query.");
-              return;
-            }
-
-            onSearch(topic);
             resetForm();
           }}
         >
