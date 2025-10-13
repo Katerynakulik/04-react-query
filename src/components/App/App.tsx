@@ -41,7 +41,7 @@ function App() {
   }, [isSuccess, data]);
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSubmit={handleSearch} />
 
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
